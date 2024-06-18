@@ -1,0 +1,59 @@
+ /*Return a list of the 25 employees with the lowest hourly rate in any non support departments (Support Departments: HR, Marketing, and Sales) who reside in the tri-state area: Connecticut, New Jersey, and New York
+  
+  What's needed:
+  - list of 25 employees with 
+  -lowest hourly rate
+  - in any non support departments*/
+
+  select distinct employee_id,EMPLFIRST,empllast, hourly_rate,DEPARTMENT, state
+  from employee_demographics 
+  WHERE (department not like '%HR%' and department Not like '%Marketing%' and department not like '%Sales%') and state in ('CT','NJ','NY')
+  Order By HOURLY_RATE asc
+  Limit 25
+
+
+
+/* What is the average salaries paid, total salaries paid, highest salary paid, and the number of employees in Supply Chain and Finance roles?
+
+What's needed:
+-employee id
+-average salaries
+-total salries
+-highest salary,
+-number of employees 
+-supply chain and finance roles x
+*/
+
+SELECT
+employee_id,
+department,
+hourly_rate*2080,
+hourly_rate*2080,
+hourly_rate*2080
+from employee_demographics
+WHERE (department like '%Finance%' or department like '%Supply Chain%')
+
+SELECT count(employee_id) as Employee_Count,
+CAST (avg(hourly_rate*2080) as decimal) as Avg_Salary,
+CAST (sum(hourly_rate*2080) as decimal) as Total_Salary,
+CAST (max(hourly_rate*2080) as decimal) as Highest_Salary
+from employee_demographics
+WHERE (department like '%Finance%' or department like '%Supply Chain%')
+
+
+
+
+
+/*Include all userbase data for our Gmail domain users, along with their first names and last names.
+
+What's needed: 
+-al userbase data
+-gmail doman users (sub_demo)
+-first & last name*/ 
+
+select userbase.*,
+sub_demo.e_dom,
+sub_demo.sub_fname,
+sub_demo.sub_lname
+from userbase join sub_demo on sub_demo.sub_id=userbase.user_id
+WHERE sub_demo.e_dom like '%gmail%'
